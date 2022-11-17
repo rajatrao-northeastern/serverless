@@ -6,7 +6,7 @@ var docClient = new aws.DynamoDB.DocumentClient();
 exports.handler = async function (event) {
     let message = event.Records[0].Sns.Message
     let json = JSON.parse(message);
-    let email = json.username;
+    let Email = json.username;
     let token = json.token;
     const seconds = 5 * 60;
     const secondsInEpoch = Math.round(Date.now() / 1000);
@@ -16,7 +16,7 @@ exports.handler = async function (event) {
     //Creating a table for DynamoDB
 var table = {
     TableName : "csye6225",
-    Item:{      "username" : email,
+    Item:{      "username" : Email,
       "token" : token,
       "TimeToExist" :expirationTime
     }
@@ -31,7 +31,7 @@ docClient.put(table, function(err, data) {
         console.log("Added:", JSON.stringify(data, null, 2));
     }
 });
-console.log(email + " " +token + "  Parameters set!!");
+console.log(Email + " " +token + "  Parameters set!!");
 
 const mailbody = `
 <!DOCTYPE html>
@@ -39,12 +39,12 @@ const mailbody = `
     <head>
     </head>
     <body>
-      <p>Hi, ${email}</p>
-      <p>Please verify your email</br>
+      <p>Hi, ${Email}</p>
+      <p>Please verify your Email</br>
       <b>Link will be valid only for 5 minutes!!</b></br>
       Find your link below:</p>
-      <p><a href=http://demo.rajatrao.me/v1/account/verifyUserEmail?token=${token}&email=${email} >
-        http://demo.rajatrao.me/v1/account/verifyUserEmail?token=${token}&email=${email} </a> </p>
+      <p><a href=http://demo.rajatrao.me/v1/account/verifyUserEmail?token=${token}&Email=${Email} >
+        http://demo.rajatrao.me/v1/account/verifyUserEmail?token=${token}&Email=${Email} </a> </p>
         </body></html>
     </body>
 </html>`;
@@ -52,7 +52,7 @@ const mailbody = `
 var params = {
   
   Destination: {
-    ToAddresses: [email],
+    ToAddresses: [Email],
   },
   Message: {
     Body: {
@@ -68,7 +68,7 @@ var params = {
     },
     Source: "sender@demo.rajatrao.me",
   };
-  console.log("email sent");
+  console.log("Email sent");
   return ses.sendEmail(params).promise()
   
 };
