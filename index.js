@@ -58,7 +58,7 @@ var params = {
     Body: {
       Html: {
         Charset: "UTF-8",
-        Data: mailbody,ß
+        Data: mailbody,
       },
     }, 
     Subject: {
