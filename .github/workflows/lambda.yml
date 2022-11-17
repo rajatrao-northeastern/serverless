@@ -35,6 +35,13 @@ jobs:
               aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
               aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
               aws-region: us-east-1
+      - name: Copying artifact to S3
+        run: |
+            aws s3 cp ./index.zip s3://lambdaverify/
       - name: Lambda Update
-        run: |          # aws lambda update-function-code --function-name emailVerify --s3-bucket deploy.serverless.a8 --s3-key index.zip
-          aws lambda update-function-code --function-name emailVerify --zip-file fileb://index.zip
+        run: |
+          aws lambda update-function-code --function-name emailVerify --s3-bucket lambdaverify --s3-key index.zip
+              
+#       - name: Lambda Update
+#         run: |          # aws lambda update-function-code --function-name emailVerify --s3-bucket deploy.serverless.a8 --s3-key index.zip
+#           aws lambda update-function-code --function-name emailVerify --zip-file fileb://index.zip
