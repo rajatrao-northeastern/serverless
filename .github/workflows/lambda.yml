@@ -1,0 +1,40 @@
+#This workflow will build and deploy Lambda
+name: Building and Deploying Lambda function
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: [main]
+  # pull_request:
+  #   branches: [main]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: buildlambda
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Creating a zip file for lambda
+        run: |
+             pwd
+             ls -al
+             zip -r index.zip ./
+             echo "After zipping Index Folder"
+             ls -al
+      - name: Configuring AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+              aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+              aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+              aws-region: us-east-1
+      - name: Lambda Update
+        run: |          # aws lambda update-function-code --function-name emailVerify --s3-bucket deploy.serverless.a8 --s3-key index.zip
+          aws lambda update-function-code --function-name emailVerify --zip-file fileb://index.zip
