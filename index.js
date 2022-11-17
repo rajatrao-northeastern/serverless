@@ -69,6 +69,6 @@ var params = {
     Source: "sender@demo.rajatrao.me",
   };
   console.log("email sent");
-  return ses.sendemail(params).promise()
+  return ses.sendEmail(params).promise()
   
 };
