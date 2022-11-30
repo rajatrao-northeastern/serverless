@@ -13,26 +13,6 @@ exports.handler = async function (event) {
     const expirationTime = secondsInEpoch + seconds;
     const currentTime = Math.round(Date.now() / 1000);
 
-    //Creating a table for DynamoDB
-var table = {
-    TableName : "csye6225",
-    Item:{      "username" : email,
-      "token" : token,
-      "TimeToExist" :expirationTime
-    }
-  }
-  console.log("Adding new item");
-
-  //Putting an item to DynamoDB Table
-docClient.put(table, function(err, data) {
-    if (err) {
-        console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-    } else {
-        console.log("Added:", JSON.stringify(data, null, 2));
-    }
-});
-console.log(email + " " +token + "  Parameters set!!");
-
 const mailbody = `
 <!DOCTYPE html>
 <html>
@@ -43,8 +23,8 @@ const mailbody = `
       <p>Please verify your email</br>
       <b>Link will be valid only for 5 minutes!!</b></br>
       Find your link below:</p>
-      <p><a href=demo.rajatrao.me/v1/verify?token=${token}&email=${email} >
-        demo.rajatrao.me/v1/verify?token=${token}&email=${email} </a> </p>
+      <p><a href=https://demo.rajatrao.me/v1/verify?token=${token}&email=${email} >
+        https://demo.rajatrao.me/v1/verify?token=${token}&email=${email} </a> </p>
         </body></html>
     </body>
 </html>`;
