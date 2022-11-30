@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-      steps:
+    steps:
       - uses: actions/checkout@v3
       - name: Creating zip of lambda index file
         run: zip -r serverless.zip . -x ".git/*" ".github/*"
